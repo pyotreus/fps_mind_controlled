@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public CharacterController characterController;
+    private CharacterController characterController;
 
     public float speed = 12f;
     public float gravity = -9.81f * 2;
@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     bool isGrounded;
     bool isMoving;
 
-    Vector3 lastPosition = new Vector3(0f, 0f, 0f);
+    private Vector3 lastPosition = new Vector3(0f, 0f, 0f);
 
     void Start()
     {
@@ -41,8 +41,8 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
 
         characterController.Move(move * speed * Time.deltaTime);
-        
-        if (Input.GetButtonDown("Jump") && isGrounded) 
+        //print("is grounded" + isGrounded);
+        if (Input.GetKey(KeyCode.Space) && isGrounded) 
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
 
