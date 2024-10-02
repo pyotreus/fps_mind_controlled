@@ -7,8 +7,6 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
 
-    public Camera playerCamera;
-
     public bool isShooting, readyToShoot;
     bool allowReset = true;
     public float shootingDelay = 2f;
@@ -26,6 +24,8 @@ public class Weapon : MonoBehaviour
     public float bulletVelocity = 30f;
     public float bulletLifeTime = 3f;
 
+    public GameObject muzzleEffect;
+
 
     //Shooting mode - remove later
     public enum ShootingMode
@@ -36,6 +36,8 @@ public class Weapon : MonoBehaviour
     }
 
     public ShootingMode currentShootingMode;
+
+    public GameObject currentTarget;
 
     private void Awake()
     {
@@ -65,22 +67,43 @@ public class Weapon : MonoBehaviour
 
     private void FireWeapon()
     {
+        if (currentTarget == null)
+        {
+            print("currentTarget not set");
+        }
 
+        muzzleEffect.GetComponent<ParticleSystem>().Play();
+        SoundManager.Instance.shootingHeavySound.Play();
         readyToShoot = false;
 
+        // Calculate the initial shooting direction
         Vector3 shootingDirection = CalculateShootingDirectionAndSpread().normalized;
-        //Instantiate bullet
+
+        // Instantiate bullet
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
 
-        //pointing the bullet 
+        // Point the bullet in the initial shooting direction
         bullet.transform.forward = shootingDirection;
 
-        //shoot the bullet
-        bullet.GetComponent<Rigidbody>().AddForce(shootingDirection * bulletVelocity, ForceMode.Impulse);
-        //Destroy the bullet
+        // Shoot the bullet
+        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+        bulletRb.AddForce(shootingDirection * bulletVelocity, ForceMode.Impulse);
+
+        // If there's a target, give the bullet the homing behavior
+        if (currentTarget != null)
+        {
+            HomingBullet homingBullet = bullet.GetComponent<HomingBullet>();
+            if (homingBullet != null)
+            {
+                homingBullet.target = currentTarget.transform;  // Assign the target to the homing bullet
+                homingBullet.bulletSpeed = bulletVelocity;      // Ensure the bullet keeps moving at the same speed
+            }
+        }
+
+        // Destroy the bullet after its lifetime expires
         StartCoroutine(DestroyBulletAfterTime(bullet, bulletLifeTime));
 
-        //Chheck if we are done shooting
+        // Check if we are done shooting
         if (allowReset)
         {
             Invoke("ResetShot", shootingDelay);
@@ -102,7 +125,7 @@ public class Weapon : MonoBehaviour
     private Vector3 CalculateShootingDirectionAndSpread()
     {
         //Shooting from the middle of the screen to check where are we pointing at
-        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
         Vector3 targetPoint;
@@ -126,5 +149,10 @@ public class Weapon : MonoBehaviour
     {
         yield return new WaitForSeconds(bulletLifeTime);
         Destroy(bullet); 
+    }
+
+    public void SetCurrentTarget(GameObject enemy)
+    {
+        currentTarget = enemy;
     }
 }

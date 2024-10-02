@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4198209738861873558}
   - component: {fileID: 5103551575516190180}
   - component: {fileID: 4872165229944268553}
+  - component: {fileID: 504099631482656963}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -157,7 +158,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6485775901879859840}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -191,7 +192,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.7
+  m_Time: 1
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -200,8 +201,8 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0.07814407
+        time: 0.06427765
+        value: 0.12524033
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -209,8 +210,8 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.039089173
-        value: 0
+        time: 0.7187271
+        value: 0.059173584
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -262,3 +263,19 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &504099631482656963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6485775901879859840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a51573e2e09bc8d41974e975e4948461, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  turnSpeed: 50
+  bulletSpeed: 20
+  maxHomingAngle: 90
