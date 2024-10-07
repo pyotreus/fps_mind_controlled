@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4872165229944268553}
   - component: {fileID: 504099631482656963}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: EnemyBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -150,8 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a91d8c17078ae86459907eaa1e134351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyDamage: 1
-  playerDamage: 0
+  enemyDamage: 0
+  playerDamage: 1
 --- !u!96 &4872165229944268553
 TrailRenderer:
   serializedVersion: 3
@@ -281,7 +281,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6485775901879859840}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a51573e2e09bc8d41974e975e4948461, type: 3}
   m_Name: 

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement instance;
+
     private CharacterController characterController;
 
     public float speed = 15f;
@@ -21,6 +23,10 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 lastPosition = new Vector3(0f, 0f, 0f);
 
+    private void Awake()
+    {
+        instance = this;
+    }
     void Start()
     {
         characterController = GetComponent<CharacterController>();

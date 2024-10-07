@@ -54,10 +54,10 @@ public class Weapon : MonoBehaviour
         {
             isShooting = Input.GetKeyDown(KeyCode.Mouse0);
         }
-        
+        //print("shooting mode " + currentShootingMode);
         if (readyToShoot && isShooting)
         {
-            print("is shooting " + isShooting);
+            
             burstBulletsLeft = bulletsPerBurst;
             FireWeapon();
         }
@@ -67,10 +67,10 @@ public class Weapon : MonoBehaviour
 
     private void FireWeapon()
     {
-        if (currentTarget == null)
-        {
-            print("currentTarget not set");
-        }
+        //if (currentTarget == null)
+        //{
+        //    print("currentTarget not set");
+        //}
 
         muzzleEffect.GetComponent<ParticleSystem>().Play();
         SoundManager.Instance.shootingHeavySound.Play();
