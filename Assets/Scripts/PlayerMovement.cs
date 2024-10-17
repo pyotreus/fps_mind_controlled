@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 lastPosition = new Vector3(0f, 0f, 0f);
 
+    private bool canDoubleJump;
+
     private void Awake()
     {
         instance = this;
@@ -31,14 +33,14 @@ public class PlayerMovement : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
     }
-
-
+    
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
+            canDoubleJump = true;
         }
 
         float x = Input.GetAxis("Horizontal");
@@ -47,19 +49,28 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
 
         characterController.Move(move * speed * Time.deltaTime);
-        //print("is grounded" + isGrounded);
-        if (Input.GetKey(KeyCode.Space) && isGrounded) 
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (isGrounded)
+            {
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            }
+            else if (canDoubleJump)
+            {
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                canDoubleJump = false;
+            }
         }
+
         velocity.y += gravity * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);
 
         if (lastPosition != gameObject.transform.position && isGrounded)
         {
             isMoving = true;
-        } else
+        }
+        else
         {
             isMoving = false;
         }

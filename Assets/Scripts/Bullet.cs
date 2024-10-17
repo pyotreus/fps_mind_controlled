@@ -12,8 +12,6 @@ public class Bullet : MonoBehaviour
         if (hitObject.gameObject.CompareTag("Target") 
             && hitObject.gameObject.GetComponentInParent<EnemyHealth>()
             && enemyDamage) {
-            //print("hit " + hitObject.gameObject.name);
-            CreateBulletImpactEffect(hitObject);
             EnemyHealth enemyHealth = hitObject.gameObject.GetComponentInParent<EnemyHealth>();
             enemyHealth.TakeDamage(10);
             Destroy(gameObject);
@@ -28,7 +26,6 @@ public class Bullet : MonoBehaviour
 
         if (hitObject.gameObject.CompareTag("Wall"))
         {
-            //print("hit a wall" + hitObject.gameObject.name);
             CreateBulletImpactEffect(hitObject);
             Destroy(gameObject);
         }
@@ -43,5 +40,7 @@ public class Bullet : MonoBehaviour
             contactPoint.point,
             Quaternion.LookRotation(contactPoint.normal)
             );
+
+        Destroy(hole, 5f);
     }
 }

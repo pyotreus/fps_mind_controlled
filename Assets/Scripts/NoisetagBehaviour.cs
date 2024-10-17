@@ -18,12 +18,11 @@ public class NoisetagBehaviour : MonoBehaviour
     public bool live_predictions = true;
     public GameObject camObject = null;
     public float max_distance = 60;
-    public bool isAimed = false;
-
+    public bool isAimed;
 
     public UnityEvent selectedEvent;
     public UnityEventGameObject selectedObjectEvent;
-    // Start is called before the first frame update
+
     void Start()
     {
         camObject = Camera.main.gameObject;
@@ -31,12 +30,27 @@ public class NoisetagBehaviour : MonoBehaviour
 
     public void OnEnable()
     {
+        Weapon.OnTargetSelected += HandleTargetSelection;
         isVisible = true;
     }
 
     public void OnBecameVisible()
     {
+        Weapon.OnTargetSelected += HandleTargetSelection;
         isVisible = true;
+    }
+
+    public void HandleTargetSelection(GameObject selectedEnemy)
+    {
+        
+        if (selectedEnemy != null)
+        {
+            isAimed = true;
+        }
+        else
+        {
+            isAimed = false;
+        }
     }
 
     public void acquireNoisetagObjID()
@@ -77,7 +91,7 @@ public class NoisetagBehaviour : MonoBehaviour
     {
         // method called when this object is selected by the BCI
         
-        Debug.Log("-------------- Selected: " + myobjID + "---------------------");
+        Debug.Log("-------------- Selected: " + myobjID + "---------------------" + (isAimed));
         // invoke our selection handler
         Debug.Log("Invoking:" + selectedEvent.ToString());
 
@@ -131,7 +145,9 @@ public class NoisetagBehaviour : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
-        if( myobjID<0 && isVisible && isVisibleTo(this.camObject) )
+        if (isAimed) return;
+
+        if( myobjID<0 && isVisible && isVisibleTo(this.camObject))
         {
             acquireNoisetagObjID();
         }
