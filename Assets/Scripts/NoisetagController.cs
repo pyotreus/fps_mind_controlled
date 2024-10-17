@@ -226,7 +226,6 @@ public class NoisetagController : MonoBehaviour
     public void startSimpleCalibration(int nTrials = 10)
     {
         target_only = true;
-        Debug.Log("test2");
         nt.startCalibration(nTrials);
     }
 
@@ -310,7 +309,7 @@ public class NoisetagController : MonoBehaviour
         if (objIdx >= 0) // one of ours
         {
             NoisetagBehaviour selobj = registeredobjIDs[objIdx];
-            if ( selobj !=null ) selobj.OnSelection();
+            if ( selobj !=null && !selobj.isAimed) selobj.OnSelection();
         }
         if (selectionEvent != null) selectionEvent.Invoke(objID);
     }

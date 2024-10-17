@@ -1,3 +1,4 @@
+using nl.ma.utopiaserver.messages;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,8 +7,6 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-
-    public Camera playerCamera;
 
     public bool isShooting, readyToShoot;
     bool allowReset = true;
@@ -26,6 +25,8 @@ public class Weapon : MonoBehaviour
     public float bulletVelocity = 30f;
     public float bulletLifeTime = 3f;
 
+    public GameObject muzzleEffect;
+
 
     //Shooting mode - remove later
     public enum ShootingMode
@@ -37,6 +38,11 @@ public class Weapon : MonoBehaviour
 
     public ShootingMode currentShootingMode;
 
+    [Header("Selecting target")]
+    public GameObject selectedTarget;
+
+    public static event Action<GameObject> OnTargetSelected;
+
     private void Awake()
     {
         readyToShoot = true;
@@ -45,6 +51,10 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            CancelTarget();
+        }
         if (currentShootingMode == ShootingMode.Auto)
         {
             isShooting = Input.GetKey(KeyCode.Mouse0);
@@ -52,35 +62,49 @@ public class Weapon : MonoBehaviour
         {
             isShooting = Input.GetKeyDown(KeyCode.Mouse0);
         }
-        
+        //print("shooting mode " + currentShootingMode);
         if (readyToShoot && isShooting)
         {
-            print("is shooting " + isShooting);
+            
             burstBulletsLeft = bulletsPerBurst;
             FireWeapon();
         }
         
     }
 
-
     private void FireWeapon()
     {
-
+        muzzleEffect.GetComponent<ParticleSystem>().Play();
+        SoundManager.Instance.shootingHeavySound.Play();
         readyToShoot = false;
 
+        // Calculate the initial shooting direction
         Vector3 shootingDirection = CalculateShootingDirectionAndSpread().normalized;
-        //Instantiate bullet
+
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
 
-        //pointing the bullet 
+        // Point the bullet in the initial shooting direction
         bullet.transform.forward = shootingDirection;
 
-        //shoot the bullet
-        bullet.GetComponent<Rigidbody>().AddForce(shootingDirection * bulletVelocity, ForceMode.Impulse);
-        //Destroy the bullet
+        // Shoot the bullet
+        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+        bulletRb.AddForce(shootingDirection * bulletVelocity, ForceMode.Impulse);
+
+        // If there's a target, give the bullet the homing behavior
+        if (selectedTarget != null)
+        {
+            HomingBullet homingBullet = bullet.GetComponent<HomingBullet>();
+            if (homingBullet != null)
+            {
+                homingBullet.target = selectedTarget.transform;  // Assign the target to the homing bullet
+                homingBullet.bulletSpeed = bulletVelocity;      // Ensure the bullet keeps moving at the same speed
+            }
+        }
+
+        // Destroy the bullet after its lifetime expires
         StartCoroutine(DestroyBulletAfterTime(bullet, bulletLifeTime));
 
-        //Chheck if we are done shooting
+        // Check if we are done shooting
         if (allowReset)
         {
             Invoke("ResetShot", shootingDelay);
@@ -102,7 +126,7 @@ public class Weapon : MonoBehaviour
     private Vector3 CalculateShootingDirectionAndSpread()
     {
         //Shooting from the middle of the screen to check where are we pointing at
-        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
         Vector3 targetPoint;
@@ -127,4 +151,24 @@ public class Weapon : MonoBehaviour
         yield return new WaitForSeconds(bulletLifeTime);
         Destroy(bullet); 
     }
+
+    public void SelectTarget(GameObject target)
+    {
+        selectedTarget = target;
+        Enemy enemy = selectedTarget.GetComponent<Enemy>();
+        enemy.Highlight(true);
+        OnTargetSelected?.Invoke(target);
+    }
+
+    public void CancelTarget()
+    {
+        if (selectedTarget != null)
+        {
+            Enemy enemy = selectedTarget.GetComponent<Enemy>();
+            enemy.Highlight(false);
+            selectedTarget = null;
+        }
+        OnTargetSelected?.Invoke(selectedTarget);
+    }
+
 }
