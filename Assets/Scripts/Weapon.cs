@@ -28,7 +28,7 @@ public class Weapon : MonoBehaviour
     public GameObject muzzleEffect;
 
 
-    //Shooting mode - remove later
+    //TODO Shooting mode - remove later
     public enum ShootingMode
     {
         Single,
@@ -51,9 +51,18 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Mouse1))
+        //if (Input.GetKey(KeyCode.Mouse1))
+        //{
+        //    CancelTarget();
+        //}
+
+        if (Input.GetMouseButtonDown(1)) // Left mouse button
         {
-            CancelTarget();
+            MeleeWeapon meleeWeapon = GetComponentInChildren<MeleeWeapon>();
+            if (meleeWeapon != null)
+            {
+                meleeWeapon.Attack();
+            }
         }
         if (currentShootingMode == ShootingMode.Auto)
         {
@@ -62,7 +71,6 @@ public class Weapon : MonoBehaviour
         {
             isShooting = Input.GetKeyDown(KeyCode.Mouse0);
         }
-        //print("shooting mode " + currentShootingMode);
         if (readyToShoot && isShooting)
         {
             
@@ -169,6 +177,28 @@ public class Weapon : MonoBehaviour
             selectedTarget = null;
         }
         OnTargetSelected?.Invoke(selectedTarget);
+    }
+
+    public void ActivateWeapon()
+    {
+        if (PlayerMovement.instance != null)
+        {
+            // Find the gun child of the Player GameObject
+            Transform gunTransform = PlayerMovement.instance.transform.Find("gun"); // Replace "Gun" with the actual name of the child GameObject
+            if (gunTransform != null)
+            {
+                GameObject gun = gunTransform.gameObject;
+                gun.SetActive(true); // Activate the gun
+            }
+            else
+            {
+                Debug.LogWarning("Gun GameObject not found as a child of Player.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("PlayerMovement instance is not set.");
+        }
     }
 
 }

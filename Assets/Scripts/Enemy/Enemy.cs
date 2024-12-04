@@ -34,6 +34,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private GameObject highlightObject;
 
+    public Animator animator;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -48,7 +50,7 @@ public class Enemy : MonoBehaviour
     {
         CanSeePlayer();
         currentState = stateMachine.activeState.ToString();
-        //debugSphere.transform.position = playersLastKnownPosition;
+        debugSphere.transform.position = playersLastKnownPosition;
     }
 
     public bool CanSeePlayer()
@@ -56,7 +58,7 @@ public class Enemy : MonoBehaviour
         Vector3 playerPosition = player.transform.position;
         if (player != null)
         {
-            
+
             if (Vector3.Distance(transform.position, playerPosition) < sightDistance)
             {
                 

@@ -19,6 +19,10 @@ public class EnemyMovement : MonoBehaviour
     public float fireRate;
     private float fireCount;
 
+    //public float shotTimer;
+
+    public Animator animator;
+
     void Start()
     {
         
@@ -53,12 +57,27 @@ public class EnemyMovement : MonoBehaviour
 
             if (Mathf.Abs(angle) < 45f)
             {
-                Instantiate(bullet, bulletSpawn.position, bulletSpawn.rotation);
+                GameObject bullet = GameObject.Instantiate(Resources.Load("Prefabs/EnemyBullet") as GameObject, bulletSpawn.position, transform.rotation);
+                Vector3 shootDirection = (target - bulletSpawn.transform.position).normalized;
+                bullet.GetComponent<Rigidbody>().velocity = Quaternion.AngleAxis(Random.Range(-0.5f, 0.5f), Vector3.up) * shootDirection * 100;
+                //shotTimer = 0;
+                SoundManager.Instance.shootingHeavySound.Play();
+                GameObject.Destroy(bullet, 5f);
 
             }
             else
             {
                 agent.destination = target;
+            } 
+
+            if (agent.remainingDistance < 0.3f)
+            {
+                Debug.Log("RUNNING FALSE");
+                animator.SetBool("running", false);
+            } else
+            {
+                Debug.Log("RUNNING TRUE");
+                animator.SetBool("running", true);
             }
         }
 

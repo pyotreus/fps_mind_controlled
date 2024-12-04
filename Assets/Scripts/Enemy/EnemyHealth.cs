@@ -12,7 +12,7 @@ public class EnemyHealth : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        respawner = GameObject.FindGameObjectWithTag("Respawn").GetComponent<EnemyRespawner>();
+        //respawner = GameObject.FindGameObjectWithTag("Respawn").GetComponent<EnemyRespawner>();
         weapon = player.GetComponentInChildren<Weapon>();
     }
 
@@ -46,7 +46,7 @@ public class EnemyHealth : MonoBehaviour
 
     public void SetTarget()
     {
-        weapon.SelectTarget(gameObject);
+        //weapon.SelectTarget(gameObject);
     }
 
     public void CancelTarget()
