@@ -17,8 +17,7 @@ MonoBehaviour:
   objectives:
   - id: 1
     description: Interact with ak
-    completed: 0
+    completed: 1
   objectIDsToActivate: []
-  interactableObjects:
-  - {fileID: 0}
+  interactableObjects: []
   taskHint: 

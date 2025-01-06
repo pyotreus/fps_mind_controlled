@@ -10,8 +10,6 @@ public class StoryEvent : ScriptableObject
     public int id;
     public string description;
     public List<Objective> objectives;
-    //public GameObject[] objectsToActivate;
-    //public GameObject[] objectsToDeactivate;
     public List<string> objectIDsToActivate;
     [SerializeField] private GameObject[] interactableObjects;
     public string taskHint;
@@ -26,10 +24,7 @@ public class StoryEvent : ScriptableObject
             
             if (registerableObject != null)
             {
-                if (registerableObject is IInteractable interactable)
-                {
-                    interactable.Interact();
-                }
+                registerableObject.Activate();
             }
         }
     }

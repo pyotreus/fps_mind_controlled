@@ -5,7 +5,7 @@ using UnityEngine;
 public class StoryManager : MonoBehaviour
 {
 
-    public static StoryManager Instance { get; private set; }
+    public static StoryManager Instance;
     public List<StoryEvent> storyEvents;
     private int currentEventIndex = 0;
     private StoryEvent CurrentEvent => storyEvents[currentEventIndex];

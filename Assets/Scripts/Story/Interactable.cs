@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    public int objectiveId;
     public string InteractionPrompt = "Press E to interact";
     public UnityEngine.Events.UnityEvent OnInteract;
 
@@ -13,8 +12,4 @@ public class Interactable : MonoBehaviour
         OnInteract?.Invoke();
     }
 
-    public void Activate()
-    {
-        StoryManager.Instance.MarkObjectiveComplete(objectiveId);
-    }
 }

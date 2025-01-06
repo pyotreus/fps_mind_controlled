@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Block : StoryEventObject
 {
-    public override void Interact()
+    public override void Activate()
     {
         MeshRenderer parentMeshRenderer = GetComponent<MeshRenderer>();
         if (parentMeshRenderer != null )
