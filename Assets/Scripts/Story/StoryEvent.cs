@@ -24,6 +24,7 @@ public class StoryEvent : ScriptableObject
             
             if (registerableObject != null)
             {
+                Debug.Log("test " + registerableObject.name);
                 registerableObject.Activate();
             }
         }

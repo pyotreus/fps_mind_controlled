@@ -7,7 +7,7 @@ using UnityEngine;
 public class Objective
 {
 
-    public int id;
+    public int objectiveId;
     public string description;
     public bool completed;
 

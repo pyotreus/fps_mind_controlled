@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 2
   description: appartment
   objectives:
-  - id: 2
+  - objectiveId: 2
     description: interact with a head
     completed: 0
   objectIDsToActivate:

@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 1
   description: nejghbourhood
   objectives:
-  - id: 1
+  - objectiveId: 1
     description: Interact with ak
     completed: 1
   objectIDsToActivate: []

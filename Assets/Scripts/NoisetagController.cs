@@ -59,6 +59,8 @@ public class NoisetagController : MonoBehaviour
     public int prediction_frames = ISI*10;
     public int calibration_frames= (int)(ISI*4.2);
 
+    public bool BCI;
+
 
     // singlenton field
     private static NoisetagController _instance;
@@ -95,7 +97,7 @@ public class NoisetagController : MonoBehaviour
             FRAMESPERCODEBIT = (int) Math.Round(framesperbit + .1);
         }
         nt = new Noisetag();
-        Debug.Log("test1");
+
         // setup the event handlers when the connection is up.
         // debug message handler : prints all new messages
         nt.stopFlicker(); // reset state
@@ -309,7 +311,7 @@ public class NoisetagController : MonoBehaviour
         if (objIdx >= 0) // one of ours
         {
             NoisetagBehaviour selobj = registeredobjIDs[objIdx];
-            if ( selobj !=null && !selobj.isAimed) selobj.OnSelection();
+            if ( selobj !=null) selobj.OnSelection();
         }
         if (selectionEvent != null) selectionEvent.Invoke(objID);
     }

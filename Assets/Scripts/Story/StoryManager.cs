@@ -17,7 +17,7 @@ public class StoryManager : MonoBehaviour
 
     public void MarkObjectiveComplete(int objectiveId)
     {
-        Objective objective = CurrentEvent.objectives.Find(objective => objective.id == objectiveId);
+        Objective objective = CurrentEvent.objectives.Find(objective => objective.objectiveId == objectiveId);
         if (objective != null)
         {            
             objective.Complete();

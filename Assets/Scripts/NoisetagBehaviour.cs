@@ -18,39 +18,27 @@ public class NoisetagBehaviour : MonoBehaviour
     public bool live_predictions = true;
     public GameObject camObject = null;
     public float max_distance = 60;
-    public bool isAimed;
 
     public UnityEvent selectedEvent;
     public UnityEventGameObject selectedObjectEvent;
 
     void Start()
     {
+        if (GlobalReferences.Instance != null && !GlobalReferences.Instance.BCI)
+        {
+            this.enabled = false;
+        }
         camObject = Camera.main.gameObject;
     }
 
     public void OnEnable()
     {
-        Weapon.OnTargetSelected += HandleTargetSelection;
         isVisible = true;
     }
 
     public void OnBecameVisible()
     {
-        Weapon.OnTargetSelected += HandleTargetSelection;
         isVisible = true;
-    }
-
-    public void HandleTargetSelection(GameObject selectedEnemy)
-    {
-        
-        if (selectedEnemy != null)
-        {
-            isAimed = true;
-        }
-        else
-        {
-            isAimed = false;
-        }
     }
 
     public void acquireNoisetagObjID()
@@ -74,24 +62,11 @@ public class NoisetagBehaviour : MonoBehaviour
         releaseNoisetagObjID();
     }
 
-    public void releaseNoisetagObjID()
-    {
-        // release the objID
-        if (myobjID > 0)
-        {
-            NoisetagController.Instance.releaseObjID(myobjID);
-            Debug.Log("Released objID: " + myobjID);
-            myobjID = -1;
-        }
-        mystate = -1;
-        isVisible = false;
-    }
-
     public void OnSelection()
     {
         // method called when this object is selected by the BCI
         
-        Debug.Log("-------------- Selected: " + myobjID + "---------------------" + (isAimed));
+        Debug.Log("-------------- Selected: " + myobjID + "---------------------");
         // invoke our selection handler
         Debug.Log("Invoking:" + selectedEvent.ToString());
 
@@ -110,22 +85,60 @@ public class NoisetagBehaviour : MonoBehaviour
         this.mystate = -1;
         this.myprob = -1;
     }
-
-    public bool isVisibleTo(GameObject go)
+    
+    public void Update()
     {
-        if ( go==null)
+        if (PlayerMovement.instance.crystalActivated 
+            && myobjID < 0 
+            && isVisible 
+            && isVisibleTo(this.camObject))
+        {
+            acquireNoisetagObjID();
+        }
+        mystate = NoisetagController.Instance.getObjState(myobjID);
+        flicker_color = getFlickerColor(mystate, myprob);
+        // do nothing if not enabled/visible
+        if (mystate < 0) return;
+
+        updateButtonColor();
+        updateRendererColor();
+    }
+
+    private void releaseNoisetagObjID()
+    {
+        // release the objID
+        if (myobjID > 0)
+        {
+            NoisetagController.Instance.releaseObjID(myobjID);
+            Debug.Log("Released objID: " + myobjID);
+            myobjID = -1;
+        }
+        mystate = -1;
+        isVisible = false;
+    }
+
+    private bool CanAcquireNoisetagObjID()
+    {
+        return myobjID < 0 
+            && isVisible
+            && isVisibleTo(this.camObject);
+    }
+
+    private bool isVisibleTo(GameObject go)
+    {
+        if (go == null)
         {
             return true;
         }
 
         Vector3 heading = this.transform.position - go.transform.position;
-        if ( this.max_distance > 0 && heading.magnitude > this.max_distance )
+        if (this.max_distance > 0 && heading.magnitude > this.max_distance)
         {
             return false;
         }
 
         RaycastHit hit;
-        if ( Physics.Linecast(go.transform.position, this.transform.position, out hit))
+        if (Physics.Linecast(go.transform.position, this.transform.position, out hit))
         {
             if (hit.transform != this.transform)
             {
@@ -141,27 +154,9 @@ public class NoisetagBehaviour : MonoBehaviour
         }
         return true;
     }
-    
-    // Update is called once per frame
-    public void Update()
-    {
-        if (isAimed) return;
-
-        if( myobjID<0 && isVisible && isVisibleTo(this.camObject))
-        {
-            acquireNoisetagObjID();
-        }
-        mystate = NoisetagController.Instance.getObjState(myobjID);
-        flicker_color = getFlickerColor(mystate, myprob);
-        // do nothing if not enabled/visible
-        if (mystate < 0) return;
 
 
-        updateButtonColor();
-        updateRendererColor();
-    }
-
-    public Color getFlickerColor(int mystate=0, float myprob=-1)
+    private Color getFlickerColor(int mystate=0, float myprob=-1)
     {
         // map state to color
         Color col = Color.black;
@@ -190,7 +185,7 @@ public class NoisetagBehaviour : MonoBehaviour
         return col;
     }
 
-    public void updateRendererColor()
+    private void updateRendererColor()
     {
         Renderer r = gameObject.GetComponent<MeshRenderer>();
         if (r != null)
@@ -203,7 +198,7 @@ public class NoisetagBehaviour : MonoBehaviour
         }
     }
 
-    public void updateButtonColor()
+    private void updateButtonColor()
     {
         // change the color of all material below this gameobject
         foreach (Image m in gameObject.GetComponents<Image>())

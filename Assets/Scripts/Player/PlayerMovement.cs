@@ -21,6 +21,10 @@ public class PlayerMovement : MonoBehaviour
     private readonly float interactionRange = 3f;
     private CharacterController characterController;
 
+    //testing crystal vision
+    public bool crystalActivated;
+    protected Crystal crystal;
+    
     private void Awake()
     {
         instance = this;
@@ -29,10 +33,16 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        crystal = GetComponent<Crystal>();
     }
     
     void Update()
     {
+        if (crystal.IsActive())
+        {
+            return;
+        }  
+
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if (isGrounded && velocity.y < 0)
         {
@@ -47,9 +57,6 @@ public class PlayerMovement : MonoBehaviour
         characterController.Move(speed * Time.deltaTime * move);
         Jump();
         Interact();
-
-        velocity.y += gravity * Time.deltaTime;
-        characterController.Move(velocity * Time.deltaTime);
     }
 
     private void Jump()
@@ -61,11 +68,13 @@ public class PlayerMovement : MonoBehaviour
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
         }
+        velocity.y += gravity * Time.deltaTime;
+        characterController.Move(velocity * Time.deltaTime);
     }
 
     private void Interact()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && !crystalActivated)
         {
             CheckForInteraction();
         }
@@ -77,10 +86,7 @@ public class PlayerMovement : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, interactionRange, interactionLayer))
         {
             Interactable interactable = hit.collider.GetComponent<Interactable>();
-            if (interactable != null)
-            {
-                interactable.Interact();
-            }
+            interactable?.Interact();
         } else
         {
             Debug.Log("nothing to interact");
