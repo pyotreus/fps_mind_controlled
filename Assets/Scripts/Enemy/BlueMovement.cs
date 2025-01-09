@@ -39,29 +39,29 @@ public class BlueMovement : MonoBehaviour
         }
 
         attackTimer -= Time.deltaTime;
-        //Debug.Log("attackerTimer " + attackTimer);
-        if (agent.remainingDistance <= 5f)
-            {
-                animator.SetBool("running", false);
-                animator.SetBool("attack", true);
-   
-                float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1;
-                //Debug.Log("normalizedTime " + normalizedTime);
-                if (normalizedTime > 0.4f && normalizedTime < 0.6f) // Assuming the hit occurs at 50-60% of the animation
-                {
-                    if (attackTimer <= 0f) // Prevent multiple hits during one swing
-                    {
-                        attackTimer = attackCooldown;
-                        DealDamageToPlayer();
-                    }
-                }
 
-            } else
+        if (agent.remainingDistance <= 5f)
+        {
+            animator.SetBool("running", false);
+            animator.SetBool("attack", true);
+
+            float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1;
+
+            if (normalizedTime > 0.4f && normalizedTime < 0.6f) // Assuming the hit occurs at 50-60% of the animation
             {
-                animator.SetBool("running", true);
-                animator.SetBool("attack", false);
+                if (attackTimer <= 0f) // Prevent multiple hits during one swing
+                {
+                    attackTimer = attackCooldown;
+                    DealDamageToPlayer();
+                }
             }
-        //}
+
+        }
+        else
+        {
+            animator.SetBool("running", true);
+            animator.SetBool("attack", false);
+        }
 
     }
 

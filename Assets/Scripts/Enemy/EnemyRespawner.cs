@@ -44,27 +44,7 @@ public class EnemyRespawner : MonoBehaviour
 
         // Instantiate the enemy at the spawn point
         GameObject newEnemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
-
-        // Notify the newly respawned enemy of the current target selection state
-        NotifyEnemyOfCurrentState(newEnemy);
     }
 
-    // Method to notify the new enemy of the current game state
-    private void NotifyEnemyOfCurrentState(GameObject newEnemy)
-    {
-        NoisetagBehaviour noisetagBehaviour = newEnemy.GetComponentInChildren<NoisetagBehaviour>();
-        if (noisetagBehaviour != null)
-        {
-            // If there is a currently selected enemy, notify the new enemy of the state
-            if (weapon.selectedTarget != null)
-            {
-                noisetagBehaviour.HandleTargetSelection(weapon.selectedTarget);
-            }
-            else
-            {
-                // No current enemy selected, so stop flickering
-                noisetagBehaviour.HandleTargetSelection(null);
-            }
-        }
-    }
+    
 }

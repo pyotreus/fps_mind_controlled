@@ -9,6 +9,7 @@ public class SoundManager : MonoBehaviour
 
     public AudioSource shootingHeavySound;
     public AudioSource bonkSound;
+    public AudioSource hitSound;
 
     private void Awake()
     {

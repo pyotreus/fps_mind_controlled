@@ -51,18 +51,9 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
-        //if (Input.GetKey(KeyCode.Mouse1))
-        //{
-        //    CancelTarget();
-        //}
-
-        if (Input.GetMouseButtonDown(1)) // Left mouse button
+        if (Input.GetKey(KeyCode.Mouse1))
         {
-            MeleeWeapon meleeWeapon = GetComponentInChildren<MeleeWeapon>();
-            if (meleeWeapon != null)
-            {
-                meleeWeapon.Attack();
-            }
+            CancelTarget();
         }
         if (currentShootingMode == ShootingMode.Auto)
         {
@@ -97,17 +88,6 @@ public class Weapon : MonoBehaviour
         // Shoot the bullet
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
         bulletRb.AddForce(shootingDirection * bulletVelocity, ForceMode.Impulse);
-
-        // If there's a target, give the bullet the homing behavior
-        if (selectedTarget != null)
-        {
-            HomingBullet homingBullet = bullet.GetComponent<HomingBullet>();
-            if (homingBullet != null)
-            {
-                homingBullet.target = selectedTarget.transform;  // Assign the target to the homing bullet
-                homingBullet.bulletSpeed = bulletVelocity;      // Ensure the bullet keeps moving at the same speed
-            }
-        }
 
         // Destroy the bullet after its lifetime expires
         StartCoroutine(DestroyBulletAfterTime(bullet, bulletLifeTime));
@@ -184,7 +164,7 @@ public class Weapon : MonoBehaviour
         if (PlayerMovement.instance != null)
         {
             // Find the gun child of the Player GameObject
-            Transform gunTransform = PlayerMovement.instance.transform.Find("gun"); // Replace "Gun" with the actual name of the child GameObject
+            Transform gunTransform = PlayerMovement.instance.transform.Find("Gun"); // Replace "Gun" with the actual name of the child GameObject
             if (gunTransform != null)
             {
                 GameObject gun = gunTransform.gameObject;
