@@ -25,6 +25,16 @@ public class StoryManager : MonoBehaviour
         }
     }
 
+    public bool IsCurrentEventObjectiveComplete(int objectiveId)
+    {
+        Objective objective = CurrentEvent.objectives.Find(objective => objective.objectiveId == objectiveId);
+        if (objective != null)
+        {
+            return objective.IsComplete();
+        } 
+        return false;
+    }
+
     private void Awake()
     {
         if (Instance != null && Instance != this)

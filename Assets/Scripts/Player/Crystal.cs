@@ -30,7 +30,7 @@ public class Crystal : MonoBehaviour
             Debug.DrawRay(ray.origin, ray.direction * 10f, Color.red);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                var objectToInteract = hit.collider.GetComponent<Interactable>();
+                var objectToInteract = hit.collider.GetComponent<CrystalInteractable>();
                 if (objectToInteract != null)
                 {
                     HighlightObject(hit.collider.gameObject);
@@ -46,7 +46,7 @@ public class Crystal : MonoBehaviour
 
     private void ActivateCrystal()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && InventoryManager.Instance.crystal)
         {
             crystalVision.alpha = 1f;
             crystalActivated = true;
@@ -65,7 +65,6 @@ public class Crystal : MonoBehaviour
             RemoveHighlight();
             highlightedObject = obj;
 
-            // Apply highlight effect (e.g., material or shader)
             var renderer = highlightedObject.GetComponent<Renderer>();
             if (renderer != null)
             {
@@ -78,7 +77,6 @@ public class Crystal : MonoBehaviour
     {
         if (highlightedObject != null)
         {
-            // Remove highlight effect
             var renderer = highlightedObject.GetComponent<Renderer>();
             if (renderer != null)
             {
@@ -90,7 +88,7 @@ public class Crystal : MonoBehaviour
         }
     }
 
-    void StartInteractionCountdown(Interactable interactable)
+    void StartInteractionCountdown(CrystalInteractable interactable)
     {
         if (highlightedObject != null)
         {

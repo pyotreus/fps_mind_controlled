@@ -9,7 +9,7 @@ public class Objective
 
     public int objectiveId;
     public string description;
-    public bool completed;
+    private bool completed;
 
     public void Complete()
     {
@@ -17,6 +17,11 @@ public class Objective
         {
             completed = true;
         }
+    }
+
+    public bool IsComplete()
+    {
+        return completed;
     }
 
 }

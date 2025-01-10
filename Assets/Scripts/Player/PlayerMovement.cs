@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     Vector3 velocity;
 
     private bool isGrounded;
-    private readonly float interactionRange = 3f;
+    private readonly float interactionRange = 10f;
     private CharacterController characterController;
 
     //testing crystal vision
@@ -82,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckForInteraction()
     {
-        Ray ray = new Ray(transform.position, transform.forward);
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, interactionRange, interactionLayer))
         {
             Interactable interactable = hit.collider.GetComponent<Interactable>();

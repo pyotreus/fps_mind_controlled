@@ -7,6 +7,8 @@ public class StoryEventObject : MonoBehaviour, IStoryEventTarget
     public int objectiveID;
     public string objectID;
     public bool collectable;
+    public bool NPC;
+    public string text;
 
     public virtual void Activate()
     {
@@ -20,6 +22,10 @@ public class StoryEventObject : MonoBehaviour, IStoryEventTarget
         {
             InventoryManager.Instance.AddItem(this);
             gameObject.SetActive(false);
+        }
+        if (NPC)
+        {
+            Debug.Log(text);
         }
         StoryManager.Instance.MarkObjectiveComplete(objectiveID);       
     }

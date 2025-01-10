@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce633ecc67308f5468e69ffd36178d25, type: 3}
-  m_Name: NeighbourhoodIntro
+  m_Name: Returning
   m_EditorClassIdentifier: 
-  id: 1
-  description: nejghbourhood
+  id: 3
+  description: Returning home
   objectives:
   - objectiveId: 1
-    description: Interact with ak
-    completed: 1
+    description: Returning to janitor
+    completed: 0
   objectIDsToActivate: []
   interactableObjects: []
   taskHint: 

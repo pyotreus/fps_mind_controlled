@@ -7,13 +7,13 @@ using UnityEngine;
 public class StoryEvent : ScriptableObject
 {
 
-    public int id;
+    public string id;
     public string description;
     public List<Objective> objectives;
     public List<string> objectIDsToActivate;
     [SerializeField] private GameObject[] interactableObjects;
     public string taskHint;
-    private bool completed => objectives.TrueForAll(objective => objective.completed);
+    private bool completed => objectives.TrueForAll(objective => objective.IsComplete());
 
     public void InitializeEvent()
     {
@@ -24,7 +24,6 @@ public class StoryEvent : ScriptableObject
             
             if (registerableObject != null)
             {
-                Debug.Log("test " + registerableObject.name);
                 registerableObject.Activate();
             }
         }
