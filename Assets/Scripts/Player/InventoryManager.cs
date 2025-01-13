@@ -13,12 +13,12 @@ public class InventoryManager : MonoBehaviour
 
     public bool HasItem(StoryEventObject item)
     {
-        return items.Any(i => i.objectID == item.objectID);
+        return items.Any(i => i.objectId == item.objectId);
     }
 
     public bool HasItem(string item)
     {
-        return items.Any(i => i.objectID == item);
+        return items.Any(i => i.objectId == item);
     }
 
     public List<StoryEventObject> GetItems()
@@ -51,7 +51,7 @@ public class InventoryManager : MonoBehaviour
 
     public void RemoveItemById(string objectId)
     {
-        items.RemoveAll(item => item.objectID.Equals(objectId));
+        items.RemoveAll(item => item.objectId.Equals(objectId));
     }
 
     private void Awake()

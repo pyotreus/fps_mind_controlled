@@ -23,9 +23,9 @@ public class StoryEventsObjectsManager : MonoBehaviour
 
     public void RegisterObject(StoryEventObject obj)
     {
-        if (!objectDictionary.ContainsKey(obj.objectID))
+        if (!objectDictionary.ContainsKey(obj.objectId))
         {
-            objectDictionary.Add(obj.objectID, obj);
+            objectDictionary.Add(obj.objectId, obj);
         }
     }
 

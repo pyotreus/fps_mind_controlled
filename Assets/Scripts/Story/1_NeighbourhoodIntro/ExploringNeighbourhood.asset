@@ -17,13 +17,15 @@ MonoBehaviour:
   objectives:
   - objectiveId: 1
     description: talk to children
+    state: 0
   - objectiveId: 2
     description: talk to lady
+    state: 0
   - objectiveId: 3
     description: talk to girl
+    state: 0
   objectIDsToActivate:
   - ball
-  - kid
   interactableObjects:
   - {fileID: 0}
   taskHint: 

@@ -19,15 +19,7 @@ public class DoggyStoryEventObject : StoryEventObject
 
     private void Start()
     {
-        if (StoryEventsObjectsManager.Instance != null)
-        {
-            
-            StoryEventsObjectsManager.Instance.RegisterObject(this);
-        }
-        else
-        {
-            Debug.LogWarning("StoryEventsObjectsManager not available in the scene yet!");
-        }
+        base.Start();
         navMeshAgent = GetComponent<NavMeshAgent>();
 
     }
@@ -75,19 +67,19 @@ public class DoggyStoryEventObject : StoryEventObject
                 navMeshAgent.ResetPath(); // Stop moving if close enough
             }
 
-            //if (Vector3.Distance(transform.position, destination.position) < 1f)
-            //{
-            //    CompleteQuest();
-            //}
+            if (objective.IsComplete())
+            {
+                CompleteQuest();
+            }
         }
     }
 
-    //private void CompleteQuest()
-    //{
-    //    isFollowing = false;
-    //    navMeshAgent.ResetPath();
-    //    StoryManager.Instance.MarkObjectiveComplete(objectiveID);
-    //    UpdateFeedbackText(textOnCompletion);
-    //}
+    private void CompleteQuest()
+    {
+        isFollowing = false;
+        var girl = StoryEventsObjectsManager.Instance.GetObject("girl");
+        navMeshAgent.SetDestination(girl.transform.position);
+        UpdateFeedbackText(textOnCompletion);
+    }
 
 }

@@ -13,7 +13,7 @@ public class StoryEvent : ScriptableObject
     public List<string> objectIDsToActivate;
     [SerializeField] private GameObject[] interactableObjects;
     public string taskHint;
-    private bool completed => objectives.TrueForAll(objective => objective.IsComplete());
+    [SerializeField] private bool completed => objectives.TrueForAll(objective => objective.IsComplete());
 
     public void InitializeEvent()
     {

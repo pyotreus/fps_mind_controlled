@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
     
     void Update()
     {
-        if (crystal.IsActive())
+        if (crystal.IsActive() || DialogueManager.Instance.IsDialogueActive())
         {
             return;
         }  

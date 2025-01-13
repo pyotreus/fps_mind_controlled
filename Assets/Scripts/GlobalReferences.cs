@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GlobalReferences : MonoBehaviour
@@ -7,7 +5,6 @@ public class GlobalReferences : MonoBehaviour
 
     public static GlobalReferences Instance { set; get; }
 
-    public GameObject bulletImpactPrefabEffect;
     public bool BCI;
     
     private void Awake()
@@ -18,6 +15,7 @@ public class GlobalReferences : MonoBehaviour
         } else
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
     }
 }

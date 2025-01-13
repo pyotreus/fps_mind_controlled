@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class StoryEventObject : MonoBehaviour, IStoryEventTarget
 {
-    public int objectiveID;
-    public string objectID;
+    public string storyEventId;
+    public int objectiveId;
+    public string objectId;
     public bool collectable;
     public bool NPC;
     public string text;
+    protected Objective objective;
 
     public virtual void Activate()
     {
@@ -26,11 +28,15 @@ public class StoryEventObject : MonoBehaviour, IStoryEventTarget
         if (NPC)
         {
             Debug.Log(text);
-        }
-        StoryManager.Instance.MarkObjectiveComplete(objectiveID);       
+        }      
     }
 
-    private void Start()
+    public Objective GetObjective()
+    {
+        return objective;
+    }
+
+    public void Start()
     {
         if (StoryEventsObjectsManager.Instance != null)
         {
@@ -40,5 +46,11 @@ public class StoryEventObject : MonoBehaviour, IStoryEventTarget
         {
             Debug.LogWarning("StoryEventsObjectsManager not available in the scene yet!");
         }
+        objective = StoryManager.Instance.FindObjectiveByEventIdAndObjectiveId(storyEventId, objectiveId);
+        if (objective == null)
+        {
+            Debug.LogError("Objective not found!");
+        }
+
     }
 }

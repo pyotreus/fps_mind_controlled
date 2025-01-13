@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StoryManager : MonoBehaviour
@@ -33,6 +34,13 @@ public class StoryManager : MonoBehaviour
             return objective.IsComplete();
         } 
         return false;
+    }
+
+    public Objective FindObjectiveByEventIdAndObjectiveId(string eventId, int objectiveId)
+    {
+        var storyEvent = storyEvents.FirstOrDefault(storyEvent => storyEvent.id.Equals(eventId));
+
+        return storyEvent?.objectives.FirstOrDefault(objective => objective.objectiveId == objectiveId);
     }
 
     private void Awake()

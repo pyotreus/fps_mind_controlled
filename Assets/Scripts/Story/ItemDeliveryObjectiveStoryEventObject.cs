@@ -8,30 +8,22 @@ public class ItemDeliveryObjectiveStoryEventObject : StoryEventObject
     public string textProgress;
     public string textOnCompletion;
 
-    private enum ObjectiveState
-    {
-        NotInitialized,
-        WaitingForItem,
-        Completed
-    }
-
-    private ObjectiveState currentState = ObjectiveState.NotInitialized;
-
     public override void Interact()
     {
-        if (currentState == ObjectiveState.Completed)
+        //Debug.Log("objective.GetState() " + objective.description);
+        if (StoryManager.Instance.IsCurrentEventObjectiveComplete(objectiveId))
         {
             UpdateFeedbackText("You've already completed this objective.");
             return;
         }
 
-        switch (currentState)
+        switch (objective.GetState())
         {
-            case ObjectiveState.NotInitialized:
+            case Objective.ObjectiveState.NotInitialized:
                 InitializeObjective();
                 break;
 
-            case ObjectiveState.WaitingForItem:
+            case Objective.ObjectiveState.WaitingForItem:
                 HandleItemDelivery();
                 break;
         }
@@ -44,8 +36,8 @@ public class ItemDeliveryObjectiveStoryEventObject : StoryEventObject
         {
             InventoryManager.Instance.AddItem(objectIdToDeliver);
         }
-        
-        currentState = ObjectiveState.WaitingForItem;
+
+        GetObjective().SetState(Objective.ObjectiveState.WaitingForItem);
     }
 
     private void HandleItemDelivery()
@@ -65,13 +57,13 @@ public class ItemDeliveryObjectiveStoryEventObject : StoryEventObject
 
     private void CompleteObjective()
     {
-        StoryManager.Instance.MarkObjectiveComplete(objectiveID);
-        currentState = ObjectiveState.Completed;
+        StoryManager.Instance.MarkObjectiveComplete(objectiveId);
         UpdateFeedbackText(textOnCompletion);
     }
 
     private void UpdateFeedbackText(string feedback)
     {
+        DialogueManager.Instance.ShowDialogue(feedback);
         text = feedback;
         Debug.Log(text);
     }

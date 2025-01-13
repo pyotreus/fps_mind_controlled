@@ -34,13 +34,7 @@ public class Bullet : MonoBehaviour
 
     void CreateBulletImpactEffect(Collision hitObject)
     {
-        ContactPoint contactPoint = hitObject.contacts[0];
-        GameObject hole = Instantiate(
-            GlobalReferences.Instance.bulletImpactPrefabEffect,
-            contactPoint.point,
-            Quaternion.LookRotation(contactPoint.normal)
-            );
 
-        Destroy(hole, 5f);
+
     }
 }
