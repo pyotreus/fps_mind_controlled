@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Returning
   m_EditorClassIdentifier: 
   id: 3
-  description: Returning home
+  description: Return
   objectives:
   - objectiveId: 1
     description: Returning to janitor
-    completed: 0
-  objectIDsToActivate: []
+    state: 2
+  objectIdsToActivate: []
+  objectIdsToDeactivate: []
   interactableObjects: []
   taskHint: 

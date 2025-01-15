@@ -5,6 +5,7 @@ using UnityEngine;
 public class StoryEventObject : MonoBehaviour, IStoryEventTarget
 {
     public string storyEventId;
+    public string objectName;
     public int objectiveId;
     public string objectId;
     public bool collectable;
@@ -47,6 +48,8 @@ public class StoryEventObject : MonoBehaviour, IStoryEventTarget
             Debug.LogWarning("StoryEventsObjectsManager not available in the scene yet!");
         }
         objective = StoryManager.Instance.FindObjectiveByEventIdAndObjectiveId(storyEventId, objectiveId);
+        //Debug.Log("storyEventId " + storyEventId);
+        //Debug.Log("objectiveId " + objectiveId);
         if (objective == null)
         {
             Debug.LogError("Objective not found!");

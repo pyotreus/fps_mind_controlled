@@ -20,12 +20,12 @@ MonoBehaviour:
     state: 0
   - objectiveId: 2
     description: talk to lady
-    state: 0
+    state: 2
   - objectiveId: 3
     description: talk to girl
-    state: 0
-  objectIDsToActivate:
-  - ball
+    state: 2
+  objectIdsToActivate: []
+  objectIdsToDeactivate: []
   interactableObjects:
   - {fileID: 0}
   taskHint: 

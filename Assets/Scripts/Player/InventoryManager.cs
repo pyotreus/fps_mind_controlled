@@ -1,15 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class InventoryManager : MonoBehaviour
 {
 
     public static InventoryManager Instance;
+    public GameObject inventoryPanel;
+    public GameObject itemNameTemplate;
     public bool crystal;
     private List<StoryEventObject> items = new List<StoryEventObject>();
+    private List<GameObject> instantiatedItems = new List<GameObject>();
+
+    public void ToggleInventory()
+    {
+        bool isActive = inventoryPanel.activeSelf;
+        inventoryPanel.SetActive(!isActive);
+    }
 
     public bool HasItem(StoryEventObject item)
     {
@@ -32,6 +41,7 @@ public class InventoryManager : MonoBehaviour
         {
             items.Add(item);
         }
+        UpdateInventoryUI();
     }
 
     public void AddItem(string itemId)
@@ -42,16 +52,44 @@ public class InventoryManager : MonoBehaviour
         {
             items.Add(item);
         }
+        UpdateInventoryUI();
     }
 
     public void RemoveItem(StoryEventObject item)
     {
         items.Remove(item);
+        UpdateInventoryUI();
     }
 
     public void RemoveItemById(string objectId)
     {
         items.RemoveAll(item => item.objectId.Equals(objectId));
+        UpdateInventoryUI();
+    }
+
+    private void UpdateInventoryUI()
+    {
+        // Clear previous UI elements
+        foreach (GameObject item in instantiatedItems)
+        {
+            Destroy(item);
+        }
+        instantiatedItems.Clear();
+
+        // Populate the UI with the current inventory
+        foreach (StoryEventObject item in items)
+        {
+            GameObject newItem = Instantiate(itemNameTemplate, inventoryPanel.transform);
+            newItem.GetComponent<TMP_Text>().text = item.objectId; // Use TextMeshPro
+            newItem.SetActive(true); // Ensure it's visible
+            instantiatedItems.Add(newItem);
+        }
+
+    }
+
+    private void Start()
+    {
+        inventoryPanel.SetActive(false);
     }
 
     private void Awake()

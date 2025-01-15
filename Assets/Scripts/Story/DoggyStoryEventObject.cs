@@ -31,7 +31,6 @@ public class DoggyStoryEventObject : StoryEventObject
             UpdateFeedbackText("The dog is already following you.");
             return;
         }
-        Debug.Log("has item " + InventoryManager.Instance.HasItem(requiredItemId));
 
         if (InventoryManager.Instance.HasItem(requiredItemId))
         {

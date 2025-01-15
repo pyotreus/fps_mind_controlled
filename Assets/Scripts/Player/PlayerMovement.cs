@@ -38,6 +38,10 @@ public class PlayerMovement : MonoBehaviour
     
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            InventoryManager.Instance.ToggleInventory();
+        }
         if (crystal.IsActive() || DialogueManager.Instance.IsDialogueActive())
         {
             return;

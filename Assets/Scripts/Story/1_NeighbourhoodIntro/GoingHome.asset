@@ -17,7 +17,8 @@ MonoBehaviour:
   objectives:
   - objectiveId: 1
     description: Going home
-    state: 2
-  objectIDsToActivate: []
+    state: 0
+  objectIdsToActivate: []
+  objectIdsToDeactivate: []
   interactableObjects: []
   taskHint: 

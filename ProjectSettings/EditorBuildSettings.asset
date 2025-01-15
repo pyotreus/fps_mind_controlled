@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 8c56587013d373d4fb6ef564e9e54d6a
+  - enabled: 1
+    path: Assets/Scenes/StaircaseScene.unity
+    guid: 0ef069e87ea7119418a8e21d67803d18
   m_configObjects: {}

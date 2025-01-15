@@ -6,11 +6,9 @@ public class StartScreenManager : MonoBehaviour
 {
     [SerializeField] private GameObject startScreenPanel;
     [SerializeField] private GameObject bciSelectionPanel;
-    [SerializeField] private GameObject noisetagManager;
 
     public void StartNewGame()
     {
-        Debug.Log("test");
         startScreenPanel.SetActive(false);
         bciSelectionPanel.SetActive(true);
     }
@@ -23,15 +21,6 @@ public class StartScreenManager : MonoBehaviour
     public void SetBCI(bool hasBCI)
     {
         GlobalReferences.Instance.BCI = hasBCI;
-
-        if (hasBCI && noisetagManager != null)
-        {
-            noisetagManager.SetActive(true);
-        }
-        else
-        {
-            Debug.Log("BCI not used. NoisetagManager remains inactive.");
-        }
 
         UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
     }
