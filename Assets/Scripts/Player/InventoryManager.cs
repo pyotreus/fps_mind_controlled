@@ -8,9 +8,10 @@ public class InventoryManager : MonoBehaviour
 {
 
     public static InventoryManager Instance;
-    public GameObject inventoryPanel;
-    public GameObject itemNameTemplate;
     public bool crystal;
+    private GameObject inventoryPanel;
+    private GameObject itemNameTemplate;
+    
     private List<StoryEventObject> items = new List<StoryEventObject>();
     private List<GameObject> instantiatedItems = new List<GameObject>();
 
@@ -22,7 +23,7 @@ public class InventoryManager : MonoBehaviour
 
     public bool HasItem(StoryEventObject item)
     {
-        return items.Any(i => i.objectId == item.objectId);
+        return items.Any(inventoryItem => inventoryItem.objectId == item.objectId);
     }
 
     public bool HasItem(string item)
@@ -69,14 +70,13 @@ public class InventoryManager : MonoBehaviour
 
     private void UpdateInventoryUI()
     {
-        // Clear previous UI elements
         foreach (GameObject item in instantiatedItems)
         {
             Destroy(item);
         }
         instantiatedItems.Clear();
 
-        // Populate the UI with the current inventory
+        // TODO improve inventory 
         foreach (StoryEventObject item in items)
         {
             GameObject newItem = Instantiate(itemNameTemplate, inventoryPanel.transform);
@@ -89,7 +89,27 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        inventoryPanel.SetActive(false);
+        GameObject playerUI = GameManager.Instance.GetPlayerUI();
+        if (playerUI != null)
+        {
+            inventoryPanel = playerUI.transform.Find("InventoryPanel")?.gameObject;
+
+            if (inventoryPanel != null)
+            {
+                itemNameTemplate = inventoryPanel.transform.Find("ItemNameTemplate")?.gameObject;
+                inventoryPanel.SetActive(false);
+            }
+            else
+            {
+                Debug.LogError("InventoryPanel not found in PlayerUI.");
+            }
+
+        }
+        else
+        {
+            Debug.LogError("PlayerUI prefab is not assigned in the inspector.");
+        }
+
     }
 
     private void Awake()
@@ -97,7 +117,9 @@ public class InventoryManager : MonoBehaviour
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
-        } else {
+        }
+        else
+        {
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }

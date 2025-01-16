@@ -17,7 +17,7 @@ MonoBehaviour:
   objectives:
   - objectiveId: 1
     description: talk to children
-    state: 0
+    state: 2
   - objectiveId: 2
     description: talk to lady
     state: 2

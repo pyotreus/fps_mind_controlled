@@ -23,6 +23,7 @@ public class StoryEventObject : MonoBehaviour, IStoryEventTarget
         Debug.Log($"{name} interacted with!");
         if (collectable)
         {
+            
             InventoryManager.Instance.AddItem(this);
             gameObject.SetActive(false);
         }

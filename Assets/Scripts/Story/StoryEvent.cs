@@ -42,7 +42,7 @@ public class StoryEvent : ScriptableObject
 
     public bool IsCompleted()
     {
-        Debug.Log("completed " + completed);
+        //Debug.Log("completed " + completed);
         return completed;
     }
 }

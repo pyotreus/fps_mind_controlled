@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Crystal : MonoBehaviour
 {
-    public CanvasGroup crystalVision;
+    private CanvasGroup crystalVision;
     private bool crystalActivated;
     private GameObject highlightedObject;
     private float hoverTime = 0f;
@@ -18,7 +18,25 @@ public class Crystal : MonoBehaviour
 
     void Start()
     {
-        crystalVision.alpha = 0f;
+        GameObject playerUI = GameManager.Instance.GetPlayerUI();
+        if (playerUI != null)
+        {
+            Transform crystalVisionTransform = playerUI.transform.Find("CrystalVision");
+            if (crystalVisionTransform != null)
+            {
+                crystalVision = crystalVisionTransform.GetComponent<CanvasGroup>();
+                crystalVision.alpha = 0f;
+            }
+            else
+            {
+                Debug.LogError("CrystalVision not found in PlayerUI.");
+            }
+        }
+        else
+        {
+            Debug.LogError("PlayerUI prefab is not assigned in the inspector.");
+        }
+        
     }
 
     void Update()

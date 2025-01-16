@@ -4,8 +4,8 @@ using UnityEngine;
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
-    public GameObject dialoguePanel;
-    public TextMeshProUGUI dialogueText;
+    private GameObject dialoguePanel;
+    private TextMeshProUGUI dialogueText;
 
     private string[] messages;
     private int currentMessageIndex;
@@ -21,6 +21,27 @@ public class DialogueManager : MonoBehaviour
         else
         {
             Instance = this;
+        }
+    }
+
+    private void Start()
+    {
+        GameObject playerUI = GameManager.Instance.GetPlayerUI();
+        if (playerUI != null)
+        {
+            dialoguePanel = playerUI.transform.Find("DialoguePanel")?.gameObject;
+
+            Transform dialogueTextTransform = dialoguePanel.transform.Find("DialogueText");
+            
+            if (dialogueTextTransform != null)
+            {
+                dialogueText = dialogueTextTransform.GetComponent<TextMeshProUGUI>();
+                
+            }
+            else
+            {
+                Debug.LogError("DialogueText not found as a child of DialoguePanel!");
+            }
         }
     }
     public void ShowDialogue(string message)

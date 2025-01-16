@@ -259,8 +259,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8da3517e9f103cc46b708185dd33532f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialoguePanel: {fileID: 0}
-  dialogueText: {fileID: 0}
 --- !u!114 &239237114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,8 +271,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48e01b76d0bf7e24e9f1982a670070e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryPanel: {fileID: 0}
-  itemNameTemplate: {fileID: 0}
   crystal: 0
 --- !u!114 &239237115
 MonoBehaviour:
@@ -1252,7 +1248,7 @@ Transform:
   m_GameObject: {fileID: 1038112754}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.15, y: 0, z: 2.24}
+  m_LocalPosition: {x: -0.33, y: 1.9, z: 3.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

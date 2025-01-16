@@ -17,7 +17,7 @@ MonoBehaviour:
   objectives:
   - objectiveId: 1
     description: Returning to janitor
-    state: 2
+    state: 0
   objectIdsToActivate: []
   objectIdsToDeactivate: []
   interactableObjects: []
